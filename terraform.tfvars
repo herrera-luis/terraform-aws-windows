@@ -9,4 +9,4 @@ accessip    = "0.0.0.0/0"
 key_name = "tfkey_aws"
 public_key_path = "/Users/lherrera/keys/tfkey_aws.pub"
 server_instance_type = "t2.medium"
-instance_count = 2
+instance_count = 1

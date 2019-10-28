@@ -14,6 +14,11 @@ resource "aws_key_pair" "tf_auth" {
   public_key = "${file(var.public_key_path)}"
 }
 
+data "template_file" "user-init" {
+  count    = 1
+  template = "${file("${path.module}/user_data.ps1")}"
+}
+
 resource "aws_instance" "tf_server" {
   count         = "${var.instance_count}"
   instance_type = "${var.instance_type}"
@@ -27,10 +32,6 @@ resource "aws_instance" "tf_server" {
   vpc_security_group_ids = ["${var.security_group}"]
   subnet_id              = "${element(var.subnets, count.index)}"
 
-  user_data = <<EOF
-<powershell>
-Start-Process -FilePath "docker" -ArgumentList "run -d -p 80:4321 herreraluis/dotnetcore-app" -Wait
-</powershell>
-  EOF
+  user_data              = "${data.template_file.user-init.*.rendered[count.index]}"
 
 }
