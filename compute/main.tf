@@ -26,4 +26,11 @@ resource "aws_instance" "tf_server" {
   key_name               = "${aws_key_pair.tf_auth.id}"
   vpc_security_group_ids = ["${var.security_group}"]
   subnet_id              = "${element(var.subnets, count.index)}"
+
+  user_data = <<EOF
+<powershell>
+Start-Process -FilePath "docker" -ArgumentList "run -d -p 80:4321 herreraluis/dotnetcore-app" -Wait
+</powershell>
+  EOF
+
 }

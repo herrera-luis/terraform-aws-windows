@@ -13,7 +13,7 @@ Set the path to the key generated in terraform.tfvars:
 
     public_key_path = "/put/your/path/here/key.pub"
 
-After generate your key you need to convert it from openssh to rsa with the next command
+After generate your key you need to convert it from openssh to rsa for future RDP connection to your EC2 instance, use the next command for do the convertion:
 
     ssh-keygen -p -m PEM -f /put/your/path/here/private_key
 
